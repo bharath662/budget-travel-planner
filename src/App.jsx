@@ -16,10 +16,12 @@ import Accommodation from './pages/Accommodation';
 import BudgetEstimation from './pages/BudgetEstimation';
 import TripSummary from './pages/TripSummary';
 import SavedTrips from './pages/SavedTrips';
+import FeedbackForm from './pages/FeedbackForm';
 import FeedbackList from './pages/FeedbackList';
 
 function App() {
   const [user, setUser] = useState(null);
+
   const [tripData, setTripData] = useState({
     origin: '',
     startDate: '',
@@ -31,6 +33,7 @@ function App() {
     children: 0,
     transportation: null,
     accommodation: null,
+    food: null,
     budget: 0
   });
 
@@ -43,6 +46,8 @@ function App() {
             <Route path="/" element={<Home user={user} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
+
+            {/* Trip Planning Flow */}
             <Route path="/travel-origin" element={<TravelOrigin tripData={tripData} setTripData={setTripData} />} />
             <Route path="/select-states" element={<SelectStates tripData={tripData} setTripData={setTripData} />} />
             <Route path="/select-districts" element={<SelectDistricts tripData={tripData} setTripData={setTripData} />} />
@@ -53,6 +58,9 @@ function App() {
             <Route path="/budget-estimation" element={<BudgetEstimation tripData={tripData} />} />
             <Route path="/trip-summary" element={<TripSummary tripData={tripData} user={user} />} />
             <Route path="/saved-trips" element={<SavedTrips user={user} />} />
+
+            {/* Feedback Pages */}
+            <Route path="/feedback" element={<FeedbackForm />} />
             <Route path="/feedback-list" element={<FeedbackList />} />
           </Routes>
         </main>

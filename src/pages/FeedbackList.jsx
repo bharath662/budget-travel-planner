@@ -1,13 +1,28 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 import './TravelForm.css';
 
 function FeedbackList() {
   const [feedbacks, setFeedbacks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedFeedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
-    setFeedbacks(storedFeedbacks.reverse()); // show latest first
+    const fetchFeedbacks = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/feedbacks`);
+        const data = await res.json();
+        setFeedbacks(res.data.reverse());
+      } catch (error) {
+        console.error('Error fetching feedbacks:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeedbacks();
   }, []);
+
+  if (loading) return <p>Loading feedbacks...</p>;
 
   return (
     <div className="travel-form-container">
@@ -23,10 +38,10 @@ function FeedbackList() {
           <div className="feedback-list">
             {feedbacks.map((fb, index) => (
               <div key={index} className="feedback-item">
-                <p className="feedback-text">"{fb.text}"</p>
+                <p className="feedback-text">"{fb.feedback}"</p>
                 <p className="feedback-meta">
-                  — <strong>{fb.user}</strong> ({fb.tripName || 'No trip info'})<br />
-                  <small>{fb.date}</small>
+                  — <strong>{fb.name}</strong><br />
+                  <small>{new Date(fb.createdAt).toLocaleString()}</small>
                 </p>
               </div>
             ))}
