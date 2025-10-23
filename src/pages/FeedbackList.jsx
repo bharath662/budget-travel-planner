@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { API_BASE_URL } from '../config/api';
 import './TravelForm.css';
 
@@ -12,7 +11,7 @@ function FeedbackList() {
       try {
         const res = await fetch(`${API_BASE_URL}/feedbacks`);
         const data = await res.json();
-        setFeedbacks(res.data.reverse());
+        setFeedbacks(data.reverse());
       } catch (error) {
         console.error('Error fetching feedbacks:', error);
       } finally {
