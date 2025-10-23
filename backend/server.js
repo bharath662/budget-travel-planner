@@ -18,7 +18,7 @@ app.use(rateLimit({ windowMs: 1 * 60 * 1000, max: 200 }));
 
 // Routes
 app.use('/api/trips', tripsRouter);
-app.use('/api/feedbacks', feedbacksRouter);
+app.use('/api/feedback', feedbacksRouter);
 
 app.get('/', (req, res) => {
   res.send('✅ Budget Travel Planner API is running...');
