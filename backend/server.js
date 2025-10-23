@@ -1,4 +1,4 @@
-require('dotenv').config();
+ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -12,20 +12,22 @@ const app = express();
 
 // Security + CORS + Middleware
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(cors({ origin: '*' })); // For now allow all origins (can restrict later)
 app.use(express.json());
-app.use(rateLimit({ windowMs: 1 * 60 * 1000, max: 200 }));
+
+// DB Connection
+connectDB();
 
 // Routes
-app.use('/api/trips', tripsRouter);
-app.use('/api/feedback', feedbacksRouter);
-
 app.get('/', (req, res) => {
   res.send('✅ Budget Travel Planner API is running...');
 });
 
-// Start server + DB
-const PORT = process.env.PORT || 5000;
-connectDB(process.env.MONGO_URI).then(() => {
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.use('/api/trips', tripsRouter);
+app.use('/api/feedbacks', feedbacksRouter);
+
+// Port setup for Render
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });

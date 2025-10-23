@@ -11,7 +11,8 @@ function FeedbackForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/feedback`, { name, feedback });
+       await axios.post(`${API_BASE_URL}/feedback`, { name, feedback });
+
       setSuccess('Thank you for your feedback!');
       setName('');
       setFeedback('');
